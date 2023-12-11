@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Ain Optics - Vintage Sunglasses</title>
+    <style>
+        /* Your existing styles here */
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Ain Optics - Vintage Sunglasses</h1>
+    </header>
+
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#products">Products</a>
+        <a href="#about">About Us</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <section>
+        <h2>Welcome to Ain Optics</h2>
+        <p>
+            Discover our collection of high-quality vintage sunglasses. Embrace style and quality with Ain Optics.
+        </p>
+    </section>
+
+    <!-- Add the id attributes to form elements -->
+    <button id="addProductButton">Add Product</button>
+    <button id="searchProductButton">Search Product</button>
+    <button id="deleteProductButton">Delete Product</button>
+    <div id="searchProductForm">
+        <h2>Search Product</h2>
+        <form action="#">
+            <label for="searchProductName">Product Name:</label>
+            <input type="text" id="searchProductName" name="searchProductName" required>
+            <br>
+            <button type="button" onclick="searchProduct()">Search Product</button>
+        </form>
+    </div>
+    <div id="deleteProductForm">
+        <h2>Delete Product</h2>
+        <form action="#">
+            <label for="deleteProductName">Product Name:</label>
+            <input type="text" id="deleteProductName" name="deleteProductName" required>
+            <br>
+            <button type="button" onclick="deleteProduct()">Delete Product</button>
+        </form>
+    </div>
+    <div id="addProductForm">
+        <h2>Add Product</h2>
+        <form action="#">
+            <label for="productName">Product Name:</label>
+            <input type="text" id="productName" name="productName" required>
+            <br>
+            <label for="productDescription">Product Description:</label>
+            <textarea id="productDescription" name="productDescription"></textarea>
+            <br>
+            <label for="manufacturer">Manufacturer:</label>
+            <input type="text" id="manufacturer" name="manufacturer">
+            <br>
+            <label for="costPrice">Cost Price:</label>
+            <input type="number" id="costPrice" name="costPrice" step="0.01">
+            <br>
+            <label for="sellingPrice">Selling Price:</label>
+            <input type="number" id="sellingPrice" name="sellingPrice" step="0.01">
+            <br>
+            <label for="quantityInStock">Quantity in Stock:</label>
+            <input type="number" id="quantityInStock" name="quantityInStock">
+            <br>
+            <br>
+            <button type="button" onclick="addProduct()">Add Product</button>
+        </form>
+    </div>
+    <footer>
+        <p>&copy; 2023 Ain Optics. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const addProductButton = document.getElementById('addProductButton');
+        const searchProductButton = document.getElementById('searchProductButton');
+        const deleteProductButton = document.getElementById('deleteProductButton');
+
+        addProductButton.addEventListener('click', () => {
+            document.getElementById('addProductForm').style.display = 'block';
+            document.getElementById('searchProductForm').style.display = 'none';
+            document.getElementById('deleteProductForm').style.display = 'none';
+        });
+
+        searchProductButton.addEventListener('click', () => {
+            document.getElementById('addProductForm').style.display = 'none';
+            document.getElementById('searchProductForm').style.display = 'block';
+            document.getElementById('deleteProductForm').style.display = 'none';
+        });
+
+        deleteProductButton.addEventListener('click', () => {
+            document.getElementById('addProductForm').style.display = 'none';
+            document.getElementById('searchProductForm').style.display = 'none';
+            document.getElementById('deleteProductForm').style.display = 'block';
+        });
+
+        // Update data object to correctly capture values from the f
+
+            // Create an object with the data
+            var data = {
+                productName: productName,
+                productDescription: productDescription,
+                manufacturer: manufacturer,
+                costPrice: costPrice,
+                sellingPrice: sellingPrice,
+                quantityInStock: quantityInStock
+            };
+
+            // Make an AJAX request to the server
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/addProduct", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // Handle the response from the server
+                    console.log(xhr.responseText);
+                }
+            };
+
+            // Convert the data object to JSON before sending
+            var jsonData = JSON.stringify(data);
+            xhr.send(jsonData);
+            alert('Product added successfully!');
+        
+
+        let products = [];
+
+        // Function to add a product
+        function addProduct(name, description, manufacturer, costPrice, sellingPrice, quantityInStock) {
+            const product = {
+                name: name,
+                description: description,
+                manufacturer: manufacturer,
+                costPrice: costPrice,
+                sellingPrice: sellingPrice,
+                quantityInStock: quantityInStock
+            };
+            products.push(product);
+            alert('Product has been Added');
+        }
+
+        // Function to search for a product
+        function searchProduct(name) {
+            return products.filter(product => product.name === name);
+        }
+
+        // Function to delete a product
+        function deleteProduct(name) {
+            products = products.filter(product => product.name !== name);
+        }
+
+        // Add a product
+        addProduct('Sunglasses', 'Black vintage sunglasses', 'Ain Optics', 50, 100, 10);
+
+        // Search for a product
+        const foundProducts = searchProduct('Sunglasses'); // Pass the product name
+
+        // Check if any products were found
+        if (foundProducts.length > 0) {
+            console.log('Found products:');
+            alert('Found Products');
+            for (const product of foundProducts) {
+                console.log(product);
+            }
+        } else {
+            console.log('No products found.');
+        }
+
+        // Delete a product
+        deleteProduct('Sunglasses');
+    </script>
+
+</body>
+
+</html>
